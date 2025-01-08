@@ -15,40 +15,35 @@ This document provides detailed instructions on setting up and using the Budget 
      pip install pandas openpyxl watchdog
      ```
 
-3. **File Structure**:
-   - Create the following folder structure in the root directory where the script will run:
-     ```plaintext
-     Project Root
-     ├── zappy
-     │   └── zappy.py  # Ensure the zappy.py file is saved here.
-     ├── Budgets to RP
-     │   ├── watch     # Folder where new Excel files will be placed.
-     │   ├── output    # Folder where the master file (BUDGETS.csv) will be saved.
-     │   └── BUDGETS.csv  # The initial master file (optional).
-     ```
-
-4. **Source Files**:
-   - Ensure new Excel files placed in the `watch` folder meet these requirements:
-     - Contain a sheet named "Owner Budget Report."
-     - Include named ranges `EID` and `Name` for identifying the location.
+3. **Git Installation**:
+   - Install Git if it is not already installed on your system.
+   - Download Git from [git-scm.com](https://git-scm.com/) and follow the installation instructions for your operating system.
 
 ---
 
 ## Setting Up the Tool
 
-1. **Download the Script**:
-   - Save the provided Python script (Budget Processor Tool) in the `Project Root` folder.
-
-2. **No Configuration Required**:
-   - The script uses relative paths, ensuring it works out of the box as long as the folder structure is adhered to.
-
-3. **Run the Script**:
-   - Open a terminal or command prompt.
-   - Navigate to the `Project Root` folder:
+1. **Clone the Repository**:
+   - Open a terminal or command prompt and navigate to the directory where you want to set up the project.
+   - Run the following command to clone the repository:
      ```bash
-     cd "Project Root"
+     git clone https://github.com/IlliquidAsset/RealPage_BudgetImport.git
      ```
-   - Start the script:
+
+2. **Navigate to the Project Directory**:
+   - Change into the project directory:
+     ```bash
+     cd RealPage_BudgetImport
+     ```
+
+3. **Install Dependencies**:
+   - Ensure the required Python libraries are installed by running:
+     ```bash
+     pip install pandas openpyxl watchdog
+     ```
+
+4. **Run the Script**:
+   - Start the script by running:
      ```bash
      python budget_processor.py
      ```
