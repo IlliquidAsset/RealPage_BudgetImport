@@ -45,7 +45,7 @@ This document provides detailed instructions on setting up and using the Budget 
 4. **Run the Script**:
    - Start the script by running:
      ```bash
-     python budget_processor.py
+     python UpdateBudgetUploadFile.py
      ```
 
 ---

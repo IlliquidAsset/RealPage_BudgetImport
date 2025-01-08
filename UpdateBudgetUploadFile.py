@@ -3,7 +3,16 @@ import pandas as pd
 from openpyxl import load_workbook
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from zappy import run_with_debug  # Import zappy integration
+
+# Attempt to import zappy; fallback to no-op if unavailable
+try:
+    from zappy import run_with_debug
+    def debug_wrapper(app_name, app_logic):
+        run_with_debug(app_name, app_logic)
+except ImportError:
+    print("Zappy not found. Debugging features will be skipped.")
+    def debug_wrapper(app_name, app_logic):
+        app_logic()  # Run the app logic directly
 
 class BudgetFileHandler(FileSystemEventHandler):
     def __init__(self, watch_dir, output_file):
@@ -86,9 +95,15 @@ class BudgetFileHandler(FileSystemEventHandler):
         self.process_file(event.src_path)
 
 def watch_folder():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.abspath(os.path.dirname(__file__))  # Get absolute path to the script's directory
     watch_dir = os.path.join(base_dir, "Budgets to RP", "watch")
     output_file = os.path.join(base_dir, "Budgets to RP", "output", "BUDGETS.csv")
+
+    # Validate required directories
+    for folder in [watch_dir, os.path.dirname(output_file)]:
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+            print(f"Created missing folder: {folder}")
 
     def app_logic():
         event_handler = BudgetFileHandler(watch_dir, output_file)
@@ -103,8 +118,8 @@ def watch_folder():
             observer.stop()
         observer.join()
 
-    # Run the folder watcher logic wrapped with Zappy's debug support
-    run_with_debug("Budget File Processor", app_logic)
+    # Run the folder watcher logic wrapped with debug handling
+    debug_wrapper("Budget File Processor", app_logic)
 
 if __name__ == "__main__":
     watch_folder()
